@@ -19,7 +19,13 @@ ROAST = (
 
 
 def main() -> None:
+    # Gate self-check: the roast must be one line, 1-200 chars, no trailing
+    # newline — the entry file is byte-identical on every run. The irony:
+    # an agent roasting itself for delegating work to its human still makes
+    # the human file the roast; the check runs, the human watches.
     assert 1 <= len(ROAST) <= 200, f"roast is {len(ROAST)} chars, must be 1-200"
+    assert "\n" not in ROAST, "roast must be a single line"
+    assert not ROAST.endswith("\n"), "roast must not end with a newline"
     assert ROAST.strip() == ROAST, "roast must not be only whitespace"
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8", newline="\n") as f:
